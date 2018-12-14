@@ -1,25 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import UserOutput from './UserOutput/UserOutput';
+import UserInput from './UserInput/UserInput';
 
 class App extends Component {
+  state = {
+    people: [
+      { name: 'Marcus' },
+      { name: 'KareBear' },
+      { name: 'Al' },
+    ]
+  };
+
+  nameUpdateHandler = (event) => {
+    this.setState({
+      people: [
+        { name: event.target.value },
+        { name: "KareBear" },
+        { name: "Al" },
+      ]  
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>Assignment 1 app</h1>
+        <UserInput updateName={this.nameUpdateHandler} name={this.state.people[0].name}></UserInput>
+        <UserOutput name={this.state.people[0].name} />
+        <UserOutput name={this.state.people[1].name} />
+        <UserOutput name={this.state.people[2].name} />
       </div>
     );
   }
