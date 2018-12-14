@@ -5,25 +5,29 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      { name: 'Marc', age: 30 },
-      { name: 'Karrah', age: 29 },
-      { name: 'Allie', age: 28 }
+      { id: '0', name: 'Marc', age: 30 },
+      { id: '1', name: 'Karrah', age: 29 },
+      { id: '2', name: 'Allie', age: 28 }
     ],
     showPersons: false
   }
 
-  nameChangeHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: 'Marc', age: 30 },
-        { name: event.target.value, age: 29 },
-        { name: 'Allie', age: 24 }
-      ]
-    });
+  nameChangeHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+                          return p.id === id;
+                        }),
+          personsCopy = [...this.state.persons],
+          person = {...this.state.persons[personIndex]};
+
+    person.name = event.target.value;
+    personsCopy[personIndex] = person;
+
+    this.setState({ persons: personsCopy });
   }
 
   deletePersonHandler = (personIndex) => {
-    const persons = this.state.persons;
+    // const persons = this.state.persons.slice(); // same as below, only below is the more modern method, using ES6 technique
+    const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({persons: persons});
   }
@@ -49,8 +53,10 @@ class App extends Component {
         <div>
           {
             this.state.persons.map((person, index) => {
-              return <Person 
+              return <Person
+                key={person.id}
                 click={() => this.deletePersonHandler(index)}  // Use the arrow function syntax in order to pass in index
+                changed={(event) => this.nameChangeHandler(event, person.id)}
                 name={person.name} 
                 age={person.age} />
             })
