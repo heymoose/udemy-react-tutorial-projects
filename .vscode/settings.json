@@ -1,0 +1,6 @@
+{
+    "editor.fontSize": 15,
+    "emmet.syntaxProfiles": {
+        "javascript": "jsx"
+    }
+}
