@@ -7,6 +7,7 @@ class Person extends Component {
     constructor(props) {
         super(props);
         console.log('[Person.js] inside constructor', props);
+        this.inputElement = React.createRef();
     }
 
     componentWillMount() {
@@ -15,11 +16,12 @@ class Person extends Component {
 
     componentDidMount() {
         console.log('[Person.js] inside componentDidMount');
+        // this.focus();
+    }
 
+    focus() {
         // Use the reference to the input element we created in the jsx below to focus on a certain name input
-        if (this.props.position === 0){
-            this.nameInput.focus();
-        }
+        this.inputElement.current.focus();
     }
 
     render() {
@@ -29,7 +31,7 @@ class Person extends Component {
             <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old!</p>
             <p>{this.props.children}</p>
             <input 
-                ref={(inp) => { this.nameInput = inp }}  // Create a reference to this element so it can be access elsewhere
+                ref={this.inputElement}  // Create a reference to this element so it can be access elsewhere
                 type="text" 
                 onChange={this.props.changed} 
                 defaultValue={this.props.name} />
