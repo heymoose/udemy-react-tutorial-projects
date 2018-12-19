@@ -38,7 +38,8 @@ class App extends PureComponent {
       { id: '1', name: 'Karrah', age: 29 },
       { id: '2', name: 'Allie', age: 28 }
     ],
-    showPersons: false
+    showPersons: false,
+    toggleClicked: 0
   }
 
   nameChangeHandler = (event, id) => {
@@ -63,7 +64,17 @@ class App extends PureComponent {
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({showPersons: !doesShow});
+
+    // If you need to change state in a way that relies on the previous state, this is the best practice way of doing it
+    // Essentially, setState is called async, so you can't depend on this.state always having the value you are expecting
+    // To fix it we are instead passing a function into setState which accepts the prevState as an arg, and then returns
+    // an object which changes the state based on that passed in arg.  This is an async safe way of doing it
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !doesShow, 
+        toggleClicked: prevState.toggleClicked + 1
+      }
+    });
   }
 
   render() {
