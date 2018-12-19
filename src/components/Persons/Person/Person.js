@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classes from './Person.css';
 import withClass from '../../../hoc/withClass';
 
@@ -16,7 +17,7 @@ class Person extends Component {
         console.log('[Person.js] inside componentDidMount');
     }
 
-    render () {
+    render() {
         console.log('[Person.js] inside render');
 
         return <>
@@ -26,5 +27,14 @@ class Person extends Component {
         </>
     }
 }
+
+// Ensure your props are of a certain type, will throw an error if they are not
+// Does not work in functional components
+Person.propTypes = {
+    click: PropTypes.func,
+    changed: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number
+};
 
 export default withClass(Person, classes.Person);
