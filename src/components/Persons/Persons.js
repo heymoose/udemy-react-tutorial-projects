@@ -45,7 +45,8 @@ class Persons extends PureComponent {
               click={() => this.props.clicked(index)}  // Use the arrow function syntax in order to pass in index
               changed={(event) => this.props.changed(event, person.id)}
               name={person.name} 
-              age={person.age} />
+              age={person.age} 
+              position={index} />
           });
     }
 }
