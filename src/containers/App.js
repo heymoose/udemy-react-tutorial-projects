@@ -12,6 +12,7 @@ class App extends PureComponent {
     console.log('[App.js] inside constructor', props);
   }
 
+  // Discouraged hook - often used incorrectly
   componentWillMount() {
     console.log('[App.js] inside componentWillMount');
   }
@@ -26,8 +27,22 @@ class App extends PureComponent {
   //     || nextState.showPersons !== this.state.showPersons;
   // }
 
+  // Discouraged hook - often used incorrectly
   componentWillUpdate(nextProps, nextState) {
       console.log('[UPDATE App.js] inside componentWillUpdate()', nextProps, nextState);
+  }
+
+  // Triggered whenever props are updated, allows you to update state along with them
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log('[UPDATE App.js] inside getDerivedStateFromProps()', nextProps, prevState);
+
+    // Need to return state here, gives you the chance to return something updated, otherwise return prevState
+    return prevState;
+  }
+
+  // Snapshot of dom before update
+  getSnapshotBeforeUpdate() {
+    console.log('[UPDATE App.js] inside getSnapshotBeforeUpdate()');
   }
 
   componentDidUpdate() {

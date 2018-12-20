@@ -32,4 +32,6 @@ const cockpit = (props) => {
     );
 }
 
-export default cockpit;
+// React.memo is similar to using PureComponent with class based components
+// Makes sure the component only re-renders when the props it recieves changes
+export default React.memo(cockpit);

@@ -17,6 +17,7 @@ class Persons extends PureComponent {
         this.lastPersonRef.current.focus();
     }
 
+    // Discouraged hook - often used incorrectly
     componentWillReceiveProps(nextProps) {
         console.log('[UPDATE Persons.js] inside componentWillRecieveProps()', nextProps);
     }
