@@ -16,3 +16,15 @@
 .Toolbar nav {
     height: 100%;
 }
+
+/* Using the same class here as in Logo.css, but since we're using modular css these
+   actually get 'compiled' into two different classes */
+.Logo {
+    height: 80%;
+}
+
+@media (max-width: 499px) {
+    .DesktopOnly {
+        display: none;
+    }
+}
