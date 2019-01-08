@@ -8,7 +8,8 @@ class Modal extends Component {
     // This optimization prevents the OrderSummary component from
     // getting updated even when it's info is not on the screen
     shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.show !== this.props.show;
+        return nextProps.show !== this.props.show
+            || nextProps.children !== this.props.children;
     }
 
     render() {
