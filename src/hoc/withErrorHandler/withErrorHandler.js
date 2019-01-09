@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Modal from '../../components/UI/Modal/Modal';
-import { EDESTADDRREQ } from 'constants';
 
 const withErrorHandler = (WrappedComponent, axios) => {
     return class extends Component {
@@ -9,14 +8,22 @@ const withErrorHandler = (WrappedComponent, axios) => {
         }
 
         componentWillMount() {
-            axios.interceptors.request.use(req => {
+            this.reqInterceptor = axios.interceptors.request.use(req => {
                 this.setState({error: null});
                 return req;
             });
 
-            axios.interceptors.response.use(res => res, error => {
+            this.resInterceptor = axios.interceptors.response.use(res => res, error => {
                 this.setState({error: error});
             });
+        }
+
+        // Since this component is created for every component that uses it,
+        // need to be sure to unmount it once it isn't needed anymore
+        // Otherwise this is a memory leak issue since there will be multiple
+        componentWillUnmount() {
+            axios.interceptors.request.eject(this.reqInterceptor);
+            axios.interceptors.request.eject(this.resInterceptor);
         }
 
         errorConfirmedHandler = () => {
