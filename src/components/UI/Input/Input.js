@@ -4,13 +4,20 @@ import * as logic from './inputLogic';
 import style from './Input.css';
 
 const input = (props) => {
-    const inputElementSwitch = new SwitchMap([
-        ['input', logic.defaultInput(props, style)],
-        ['textarea', logic.createTextAreaInput(props, style)],
-        ['select', logic.createSelectInput(props, style)],
-    ], logic.defaultInput(props, style));
+    let inputElement = null;
+    const inputClasses = [style.InputElement];
 
-    const inputElement = inputElementSwitch.switch(props.elementType);
+    if (props.invalid && props.shouldValidate && props.touched) {
+        inputClasses.push(style.Invalid);
+    }
+
+    const inputElementSwitch = new SwitchMap([
+        ['input', logic.defaultInput(props, inputClasses.join(' '))],
+        ['textarea', logic.createTextAreaInput(props, inputClasses.join(' '))],
+        ['select', logic.createSelectInput(props, inputClasses.join(' '))],
+    ], logic.defaultInput(props, inputClasses.join(' ')));
+
+    inputElement = inputElementSwitch.switch(props.elementType);
 
     return (
         <div className={style.Input}>

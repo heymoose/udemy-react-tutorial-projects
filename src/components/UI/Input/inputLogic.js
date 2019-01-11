@@ -2,7 +2,7 @@ import React from 'react';
 
 export const defaultInput = (props, style) => {
     return <input 
-        className={style.InputElement} 
+        className={style} 
         {...props.elementConfig} 
         value={props.value}
         onChange={props.changed} />;
@@ -10,7 +10,7 @@ export const defaultInput = (props, style) => {
 
 export const createTextAreaInput = (props, style) => {
     return <textarea 
-        className={style.InputElement} 
+        className={style} 
         {...props.elementConfig} 
         value={props.value}
         onChange={props.changed} />;
@@ -20,7 +20,7 @@ export const createSelectInput = (props, style) => {
     if (props.elementConfig.options) {
         return (
             <select 
-                className={style.InputElement} 
+                className={style} 
                 value={props.value}
                 onChange={props.changed}>
                 {props.elementConfig.options.map(option => (
