@@ -1,14 +1,16 @@
 import React from 'react';
 import SwitchMap from '../../../jsUtils/switchMap';
+import * as logic from './inputLogic';
 import style from './Input.css';
 
 const input = (props) => {
     const inputElementSwitch = new SwitchMap([
-        ['input', <input className={style.InputElement} {...props} />],
-        ['textarea', <textarea className={style.InputElement} {...props} />] 
-    ], <input className={style.InputElement} {...props} />);
+        ['input', logic.defaultInput(props, style)],
+        ['textarea', logic.createTextAreaInput(props, style)],
+        ['select', logic.createSelectInput(props, style)],
+    ], logic.defaultInput(props, style));
 
-    const inputElement = inputElementSwitch.switch(props.inputtype);
+    const inputElement = inputElementSwitch.switch(props.elementType);
 
     return (
         <div className={style.Input}>
