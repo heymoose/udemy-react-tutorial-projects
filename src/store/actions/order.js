@@ -22,16 +22,17 @@ export const purchaseBurgerStart = () => {
     };
 };
 
-export const purchaseBurger = (orderData) => {
+export const purchaseBurger = (orderData, token) => {
     return dispatch => {
         dispatch(purchaseBurgerStart());
 
         // The .json is sort of a weird thing that Firebase requires
-        axios.post('/orders.json', orderData)
+        axios.post(`/orders.json?auth=${token}`, orderData)
             .then(response => {
                 dispatch(purchaseBurgerSuccess(response.data.name, orderData));
             })
             .catch(error => {
+                console.log(error.response.data.error.message)
                 dispatch(purchaseBurgerFail(error));
             });  
     };
@@ -63,11 +64,11 @@ export const fetchOrdersStart = () => {
     };
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = (token) => {
     return dispatch => {
         dispatch(fetchOrdersStart());
 
-        axios.get('/orders.json')
+        axios.get(`/orders.json?auth=${token}`)
             .then(res => {
                 const fetchedOrders = [];
                 
