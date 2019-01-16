@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Redirect } from 'react-router-dom';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
@@ -15,19 +15,37 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <Layout>
+    let routes = !this.props.isAuthenticated
+      ? (
+        <>
+          <Route path='/' exact component={BurgerBuilder} />
+          <Route path='/auth' component={Auth} />
+        </>
+      )
+      : (
+        <>
           <Route path='/' exact component={BurgerBuilder} />
           <Route path='/checkout' component={Checkout} />
           <Route path='/orders' component={Orders} />
-          <Route path='/auth' component={Auth} />
           <Route path='/logout' component={Logout} />
+        </>
+      );
+
+    return (
+      <div>
+        <Layout>
+          {routes}
         </Layout>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.token !== null
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -35,4 +53,4 @@ const mapDispatchToProps = dispatch => {
   };
 };  
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
