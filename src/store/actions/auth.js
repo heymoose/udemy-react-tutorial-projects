@@ -50,10 +50,10 @@ export const auth = (email, password, isSignup) => {
             returnSecureToken: true
         };
 
-        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyBOJ4TVGlNlsWPsblAhpj355iniv-as2hw';
+        let url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${process.env.REACT_APP_GOOGLE_API_KEY}`;
 
         if (!isSignup) {
-            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBOJ4TVGlNlsWPsblAhpj355iniv-as2hw'
+            url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${process.env.REACT_APP_GOOGLE_API_KEY}`;
         }
 
         axios.post(url, authData)
@@ -90,13 +90,13 @@ export const authCheckState = () => {
         else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
 
-            if (expirationDate < new Date()) {
+            if (expirationDate > new Date()) {
                 const userId = localStorage.getItem('userId');
                 dispatch(authSuccess(token, userId));
             }
             else {
                 dispatch(logout());
-                dispatch(checkAuthTimeout(expirationDate.getSeconds() - new Date().getSeconds()));
+                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
             }
         }
     };

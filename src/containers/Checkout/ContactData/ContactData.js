@@ -160,7 +160,7 @@ class ContactData extends Component {
 
         return isValid;
     }
-
+    
     render() {
         const formElementsArray = [];
 
