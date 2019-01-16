@@ -12,7 +12,13 @@ import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
 
 // composeEnhancers is for redux-devtools in chrome
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// Use dev tools in development env only, otherwise this is set to null
+// in which case the compose is used
+const composeEnhancers = process.env.NODE_ENV === 'development' 
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ 
+    : null 
+    || compose;
+
 const rootReducer = combineReducers({
     burgerBuilder: burgerBuilderReducer,
     order: orderReducer,

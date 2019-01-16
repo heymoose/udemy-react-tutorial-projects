@@ -6,6 +6,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
+import { updateObject, validate } from '../../../shared/utility';
 import style from './ContactData.css';
 
 class ContactData extends Component {
@@ -119,18 +120,15 @@ class ContactData extends Component {
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
-        const updatedOrderForm = {
-            ...this.state.orderForm
-        };
-        
-        const updatedOrderFormElement = {
-            ...updatedOrderForm[inputIdentifier]
-        }
+        const updatedOrderFormElement = updateObject(this.state.orderForm[inputIdentifier], {
+            value: event.target.value,
+            valid: validate(event.target.value, this.state.orderForm[inputIdentifier].validation),
+            touched: true
+        });
 
-        updatedOrderFormElement.value = event.target.value;
-        updatedOrderFormElement.valid = this.validate(updatedOrderFormElement.value, updatedOrderFormElement.validation);
-        updatedOrderFormElement.touched = true;
-        updatedOrderForm[inputIdentifier] = updatedOrderFormElement;
+        const updatedOrderForm = updateObject(this.state.orderForm, {
+            [inputIdentifier]: updatedOrderFormElement
+        });
         
         let formIsValid = true;
         for (let inputIdentifier in updatedOrderForm) {
@@ -138,28 +136,6 @@ class ContactData extends Component {
         }
 
         this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
-    }
-
-    validate(value, rules) {
-        let isValid = true;
-
-        if (!rules) {
-            return true;
-        }
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        return isValid;
     }
     
     render() {
